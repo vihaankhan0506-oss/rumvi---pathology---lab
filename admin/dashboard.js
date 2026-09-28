@@ -8,6 +8,21 @@ const supabaseClient = window.supabase.createClient(
 );
 
 
+// Check whether Jiju is logged in
+async function checkLogin() {
+
+    const { data } = await supabaseClient.auth.getSession();
+
+    if (!data.session) {
+        window.location.href = "login.html";
+        return false;
+    }
+
+    return true;
+}
+
+
+// Load bookings
 async function loadBookings() {
 
     const bookingsList = document.getElementById("bookingsList");
@@ -19,14 +34,20 @@ async function loadBookings() {
 
     if (error) {
         console.error(error);
+
         bookingsList.innerHTML =
             "<p class='empty'>Unable to load bookings.</p>";
+
         return;
     }
 
     if (!data || data.length === 0) {
+
         bookingsList.innerHTML =
             "<p class='empty'>No bookings available yet.</p>";
+
+        updateStats([]);
+
         return;
     }
 
@@ -61,7 +82,57 @@ async function loadBookings() {
         bookingsList.appendChild(bookingCard);
 
     });
+
+    updateStats(data);
 }
 
 
-loadBookings();
+// Update dashboard numbers
+function updateStats(bookings) {
+
+    const total = bookings.length;
+
+    const pending = bookings.filter(function(booking) {
+        return booking.status === "Pending";
+    }).length;
+
+    const confirmed = bookings.filter(function(booking) {
+        return booking.status === "Confirmed";
+    }).length;
+
+    const completed = bookings.filter(function(booking) {
+        return booking.status === "Completed";
+    }).length;
+
+
+    const statCards = document.querySelectorAll(".stat-card");
+
+    if (statCards.length >= 4) {
+
+        statCards[0].querySelector("h2").textContent = total;
+
+        statCards[1].querySelector("h2").textContent = pending;
+
+        statCards[2].querySelector("h2").textContent = confirmed;
+
+        statCards[3].querySelector("h2").textContent = completed;
+
+    }
+}
+
+
+// Start dashboard
+async function startDashboard() {
+
+    const loggedIn = await checkLogin();
+
+    if (!loggedIn) {
+        return;
+    }
+
+    await loadBookings();
+
+}
+
+
+startDashboard();
