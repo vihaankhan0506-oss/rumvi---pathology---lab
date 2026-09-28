@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RUMVI Admin Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f8fb;
+            color: #222;
+        }
+
+        .header {
+            background: #1677b8;
+            color: white;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 25px;
+        }
+
+        .header p {
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h3 {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1677b8;
+        }
+
+        .booking-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .booking-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+        }
+
+        .logout {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 11px 20px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 94%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>RUMVI Pathology Lab</h1>
+        <p>Admin Dashboard</p>
+    </div>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h2>Welcome to Admin Dashboard</h2>
+            <p>Manage patient bookings and laboratory reports from here.</p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Bookings</h3>
+                <div class="number">0</div>
+            </div>
+
+            <div class="card">
+                <h3>Pending</h3>
+                <div class="number">0</div>
+            </div>
+
+            <div class="card">
+                <h3>Confirmed</h3>
+                <div class="number">0</div>
+            </div>
+
+            <div class="card">
+                <h3>Completed</h3>
+                <div class="number">0</div>
+            </div>
+
+        </div>
+
+        <div class="booking-section">
+
+            <h2>Patient Bookings</h2>
+
+           <div id="bookingsList">
+    <p class="empty">Loading bookings...</p>
+</div>
+        </div>
+
+        <a href="login.html" class="logout">Logout</a>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="dashboard.js"></script>
+
+</body>
+</html>
