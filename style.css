@@ -885,3 +885,44 @@ footer {
         font-size: 13px;
     }
 }
+/* Mobile Navigation Fix */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    nav ul li {
+        margin: 0;
+    }
+
+    nav ul li a {
+        font-size: 13px;
+        padding: 7px 8px;
+    }
+
+}
+/* Welcome Logo */
+
+.welcome-icon img {
+    width: 150px;
+    max-width: 70%;
+    height: auto;
+    display: block;
+    margin: 0 auto 15px;
+    border-radius: 12px;
+}
