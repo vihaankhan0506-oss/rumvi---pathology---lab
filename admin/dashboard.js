@@ -10,18 +10,23 @@ const supabaseClient = window.supabase.createClient(
 
 // Check whether Jiju is logged in
 async function checkLogin() {
+    const { data, error } = await supabaseClient.auth.getSession();
 
-    const { data } = await supabaseClient.auth.getSession();
+    if (error || !data.session) {
+        window.location.href = "login.html";
+        return false;
+    }
 
-    if (!data.session) {
+    const jijuUserId = "4f8f8dca-2559-4b6e-b825-bc950c1d59a9";
+
+    if (data.session.user.id !== jijuUserId) {
+        await supabaseClient.auth.signOut();
         window.location.href = "login.html";
         return false;
     }
 
     return true;
 }
-
-
 // Load bookings
 async function loadBookings() {
 
@@ -185,5 +190,48 @@ document.getElementById("previewReportBtn").addEventListener("click", function()
         "Report Notes:\n" + notes;
 
     preview.style.display = "block";
+});
+// Save patient report
+document.getElementById("saveReportBtn").addEventListener("click", async function () {
+    const patientName = document.getElementById("patientName").value.trim();
+    const patientId = document.getElementById("patientId").value.trim();
+    const reportNumber = document.getElementById("reportNumber").value.trim();
+    const testName = document.getElementById("testName").value.trim();
+
+    if (!patientName || !patientId || !reportNumber || !testName) {
+        alert("Please fill Patient Name, Patient ID, Report Number and Test Name.");
+        return;
+    }
+
+    const report = {
+        patient_id: patientId,
+        patient_name: patientName,
+        report_number: reportNumber,
+        report_date: document.getElementById("reportDate").value || null,
+        age: document.getElementById("patientAge").value || null,
+        gender: document.getElementById("patientGender").value || null,
+        referring_doctor: document.getElementById("referringDoctor").value.trim() || null,
+        sample_type: document.getElementById("sampleType").value.trim() || null,
+        test_name: testName,
+        test_results: document.getElementById("testResults").value.trim() || null,
+        report_notes: document.getElementById("reportNotes").value.trim() || null
+    };
+
+    const saveButton = document.getElementById("saveReportBtn");
+    saveButton.disabled = true;
+
+    const { error } = await supabaseClient
+        .from("reports")
+        .insert([report]);
+
+    saveButton.disabled = false;
+
+    if (error) {
+        console.error("Report save error:", error);
+        alert("Report save nahi hui. Please check the details and try again.");
+        return;
+    }
+
+    alert("Report successfully saved!");
 });
 startDashboard();
