@@ -89,7 +89,6 @@ async function loadBookings() {
 
 // Update dashboard numbers
 function updateStats(bookings) {
-
     const total = bookings.length;
 
     const pending = bookings.filter(function(booking) {
@@ -104,22 +103,15 @@ function updateStats(bookings) {
         return booking.status === "Completed";
     }).length;
 
+    const numbers = document.querySelectorAll(".card .number");
 
-    const statCards = document.querySelectorAll(".stat-card");
-
-    if (statCards.length >= 4) {
-
-        statCards[0].querySelector("h2").textContent = total;
-
-        statCards[1].querySelector("h2").textContent = pending;
-
-        statCards[2].querySelector("h2").textContent = confirmed;
-
-        statCards[3].querySelector("h2").textContent = completed;
-
+    if (numbers.length >= 4) {
+        numbers[0].textContent = total;
+        numbers[1].textContent = pending;
+        numbers[2].textContent = confirmed;
+        numbers[3].textContent = completed;
     }
 }
-
 
 // Start dashboard
 async function startDashboard() {
@@ -134,5 +126,37 @@ async function startDashboard() {
 
 }
 
+// Preview patient report
+document.getElementById("previewReportBtn").addEventListener("click", function() {
+    const name = document.getElementById("patientName").value;
+    const age = document.getElementById("patientAge").value;
+    const gender = document.getElementById("patientGender").value;
+    const patientId = document.getElementById("patientId").value;
+    const reportNumber = document.getElementById("reportNumber").value;
+    const reportDate = document.getElementById("reportDate").value;
+    const doctor = document.getElementById("referringDoctor").value;
+    const sample = document.getElementById("sampleType").value;
+    const test = document.getElementById("testName").value;
+    const results = document.getElementById("testResults").value;
+    const notes = document.getElementById("reportNotes").value;
 
+    const preview = document.getElementById("reportPreview");
+    const content = document.getElementById("previewContent");
+
+    content.textContent =
+        "RUMVI PATHOLOGY LAB\n\n" +
+        "Patient Name: " + name + "\n" +
+        "Age: " + age + "\n" +
+        "Gender: " + gender + "\n" +
+        "Patient ID: " + patientId + "\n" +
+        "Report Number: " + reportNumber + "\n" +
+        "Report Date: " + reportDate + "\n" +
+        "Referring Doctor: " + doctor + "\n" +
+        "Sample Type: " + sample + "\n\n" +
+        "Test Name: " + test + "\n\n" +
+        "Investigation Results:\n" + results + "\n\n" +
+        "Report Notes:\n" + notes;
+
+    preview.style.display = "block";
+});
 startDashboard();

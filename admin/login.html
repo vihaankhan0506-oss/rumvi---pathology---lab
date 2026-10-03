@@ -114,6 +114,9 @@
             >
 
             <button type="submit">Login</button>
+            <p>
+    <a href="#" id="forgotPassword">Forgot Password?</a>
+</p>
 
             <p id="error"></p>
 
@@ -170,6 +173,30 @@
 
                 window.location.href = "dashboard.html";
             });
+            document
+    .getElementById("forgotPassword")
+    .addEventListener("click", async function(event) {
+
+        event.preventDefault();
+
+        const email = document.getElementById("username").value.trim();
+        const errorMessage = document.getElementById("error");
+
+        if (!email) {
+            errorMessage.textContent = "Please enter your email address first.";
+            return;
+        }
+
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + "/admin/reset-password.html"
+        });
+
+        if (error) {
+            errorMessage.textContent = error.message;
+        } else {
+            errorMessage.textContent = "Password reset link sent. Please check your email.";
+        }
+    });
 
     </script>
 

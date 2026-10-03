@@ -169,6 +169,98 @@
     <p class="empty">Loading bookings...</p>
 </div>
         </div>
+        <!-- Report Management -->
+<div class="booking-section" style="margin-top: 25px;">
+
+    <h2>Report Management</h2>
+
+    <p style="margin-bottom: 20px; color: #666;">
+        Create and manage patient laboratory reports.
+    </p>
+
+    <button
+    type="button"
+    onclick="document.getElementById('reportForm').style.display='block'"
+    style="
+        padding: 12px 20px;
+        background: #1677b8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+    ">
+    + Create New Report
+</button>
+<div id="reportForm" style="display:none; margin-top:25px;">
+    <h3>Create Patient Report</h3>
+
+    <label>Patient Name</label>
+    <input type="text" id="patientName" placeholder="Patient name">
+
+    <br><br>
+
+    <label>Age</label>
+    <input type="number" id="patientAge" placeholder="Age">
+
+    <br><br>
+
+    <label>Gender</label>
+    <select id="patientGender">
+        <option value="">Select Gender</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+    </select>
+
+    <br><br>
+
+    <label>Patient ID</label>
+    <input type="text" id="patientId" placeholder="Patient ID">
+
+    <br><br>
+
+    <label>Report Number</label>
+    <input type="text" id="reportNumber" placeholder="Report Number">
+
+    <br><br>
+
+    <label>Report Date</label>
+    <input type="date" id="reportDate">
+
+    <br><br>
+
+    <label>Referring Doctor</label>
+    <input type="text" id="referringDoctor" placeholder="Doctor's name">
+
+    <br><br>
+
+    <label>Sample Type</label>
+    <input type="text" id="sampleType" placeholder="e.g. Blood">
+    <hr style="margin:25px 0;">
+
+<h3>Test Details</h3>
+
+<label>Test Name</label>
+<input type="text" id="testName" placeholder="e.g. CBC">
+
+<br><br>
+
+<label>Investigation Results</label>
+<textarea id="testResults" rows="8"
+placeholder="Investigation | Result | Unit | Reference Range"></textarea>
+
+<br><br>
+
+<label>Report Notes</label>
+<textarea id="reportNotes" rows="3"
+placeholder="Enter lab-approved notes"></textarea>
+<br><br>
+<button type="button" id="previewReportBtn">
+    Preview Report
+</button>
+</div>
+</div>
 
         <a href="login.html" class="logout">Logout</a>
 
