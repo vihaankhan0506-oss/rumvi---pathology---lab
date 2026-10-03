@@ -60,26 +60,53 @@ async function loadBookings() {
         bookingCard.className = "booking-card";
 
         bookingCard.innerHTML = `
-            <h3>${booking.booking_code}</h3>
+    <h3>${booking.booking_code}</h3>
 
-            <p><strong>Patient Name:</strong> ${booking.patient_name}</p>
+    <p><strong>Patient Name:</strong> ${booking.patient_name}</p>
+    <p><strong>Mobile:</strong> ${booking.mobile}</p>
+    <p><strong>Test:</strong> ${booking.test}</p>
+    <p><strong>Preferred Date:</strong> ${booking.preferred_date}</p>
+    <p><strong>Sample Collection:</strong> ${booking.sample_collection}</p>
 
-            <p><strong>Mobile:</strong> ${booking.mobile}</p>
+    <p><strong>Additional Information:</strong>
+        ${booking.additional_info || "None"}
+    </p>
 
-            <p><strong>Test:</strong> ${booking.test}</p>
+    <p><strong>Status:</strong> ${booking.status}</p>
 
-            <p><strong>Preferred Date:</strong> ${booking.preferred_date}</p>
+    <label for="status-${booking.id}">Change Status</label>
+    <select id="status-${booking.id}" class="booking-status">
+        <option value="Pending" ${booking.status === "Pending" ? "selected" : ""}>Pending</option>
+        <option value="Confirmed" ${booking.status === "Confirmed" ? "selected" : ""}>Confirmed</option>
+        <option value="Completed" ${booking.status === "Completed" ? "selected" : ""}>Completed</option>
+    </select>
 
-            <p><strong>Sample Collection:</strong> ${booking.sample_collection}</p>
-
-            <p><strong>Additional Information:</strong>
-                ${booking.additional_info || "None"}
-            </p>
-
-            <p><strong>Status:</strong> ${booking.status}</p>
-        `;
-
+    <button type="button" class="update-booking-btn"
+        data-id="${booking.id}">
+        Update Status
+    </button>
+`;
         bookingsList.appendChild(bookingCard);
+        const updateButton = bookingCard.querySelector(".update-booking-btn");
+
+updateButton.addEventListener("click", async function () {
+    const statusSelect = bookingCard.querySelector(".booking-status");
+    const newStatus = statusSelect.value;
+
+    const { error } = await supabaseClient
+        .from("bookings")
+        .update({ status: newStatus })
+        .eq("id", booking.id);
+
+    if (error) {
+        console.error(error);
+        alert("Status update nahi hua. Please try again.");
+        return;
+    }
+
+    alert("Booking status updated successfully!");
+    await loadBookings();
+});
 
     });
 
